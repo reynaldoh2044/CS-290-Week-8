@@ -29,15 +29,22 @@ app.get('/',function(req,res){
 
 //This is for parsing the body in a POST request. It will handle either URLEncoded or JSON
 app.post('/', function(req,res){
+    var otherParams = [];
+    for (var o in req.query){
+        otherParams.push({'name':o, 'value':req.query[o]})
+    }
+
+
     var qParams = [];
     for (var p in req.body){
       qParams.push({'name':p,'value':req.body[p]})
     }
-    console.log(qParams);
-    console.log(req.body);
+    
+
     var context = {};
-    context.dataList = qParams;
-    res.render('post-loopback', context);
+    context.queryDataSent = otherParams;
+    context.dataSent = qParams;
+    res.render('postPage', context);
   });
 
 
